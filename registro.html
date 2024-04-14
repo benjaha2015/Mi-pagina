@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+     <!--- Header -->
+     <header>
+
+        <a href="#" class="logo"><i class="bx bx-restaurant"></i>RapidEats</a>
+
+        <ul class="navlist">
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="#about" class="active">Nosotros</a></li>
+            <li><a href="registro.html" class="active">Registrarse</a></li>
+            <li><a href="#shop" class="active">Tienda</a></li>
+            <li><a href="#reviews" class="active">Reseñas</a></li>
+            <li><a href="#contact" class="active">Contacto</a></li>
+        </ul>
+
+        <div class="nav-icons">
+            <a href="#"><i class="bx bx-search"></i></a> 
+            <a href="#"><i class="bx bx-cart"></i></a> 
+            <div class="bx bx-menu" id="menu-icon"></div>
+        </div>
+    </header>
+    <main>
+        <!-- el cuerpo del formulario y todo el formulario en si-->
+        <div class="container">
+            <div class ="form-content">
+                <h1 id="title">Registrarse</h1>
+                <form>
+                    <div class ="input-group" >
+                        <div class="input-field"  id="nameInput">
+                            <i class="fa-solid fa-user" ></i>
+                            <input type="text" placeholder="Nombre">
+                        </div>  
+                        
+                        <div class="input-field">
+                            <i class="fa-solid fa-envelope" ></i>
+                            <input type="email" placeholder="Correo">
+                        </div>
+
+                        <div class="input-field">
+                                <i class="fa-solid fa-lock" ></i>
+                                <input type="text" placeholder="Contraseña">
+                        </div>  
+
+                            <p> Olvidaste tu contraseña <a href ="#">Click aqui</a> </p>                     
+                        </div>    
+
+                        <div class="btn-field">
+                            <button id="signUp" type="button">Registrarse</button>
+                            <button id="signIn" type="button" class="disable">Login</button>
+                        </div>                 
+                    
+                </form>
+            </div>
+        </div>  
+    </main>
+    <script src="js/script.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</body>
+</html>
