@@ -571,6 +571,11 @@ form p a{
     color: #2C2F35
 }
 
+.texto-producto{
+    text-align: left;
+
+    padding: 9px;
+}
 /* carrito */
 
 .hidden {
