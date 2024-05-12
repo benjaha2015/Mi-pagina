@@ -1,0 +1,105 @@
+<html>
+
+  <head>
+
+    <title>Test</title>
+
+  </head>
+
+  <body>
+
+    <form id="fomulario_email" action="abcde.php">
+
+      <div>
+
+        <label for="name">Nombre</label>
+
+        <input id="name" type="text" />
+
+      </div>
+
+      <div>
+
+        <label for="email">Email</label>
+
+        <input id="email" type="text" />
+
+      </div>
+
+      <div>
+
+        <input type="submit" value="Send"/>
+
+        <input type="reset" value="Reset"/>
+
+      </div>
+
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+
+      $(document).ready(function() {
+
+        $("#fomulario_email").submit(function() {
+
+          var nombre = $("#name").val();
+
+          var email = $("#email").val();
+
+
+
+          console.log(nombre.length);
+
+
+
+          if (nombre == "" || nombre.length > 10) {
+
+            alert("Nombre no válido");
+
+            event.preventDefault();
+
+            return false;
+
+          }
+
+
+
+          if (email == "") {
+
+            alert("Email no válido");
+
+            event.preventDefault();
+
+            return false;
+
+          }
+
+
+
+          alert("Fomulario enviado con éxito");
+
+        })
+
+      })
+
+    </script>
+
+    <style>
+
+      label{
+
+        display: block;
+
+        float: left;
+
+        width: 70px;
+
+      }
+
+    </style>
+
+  </body>
+
+</html>
