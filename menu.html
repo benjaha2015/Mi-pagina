@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel= "icon" href="img/restaurant-regular-24.png">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
-     <!--- Header -->
-     <header>
+    <!--- Header -->
+    <header>
 
         <a href="index.html" class="logo"><i class="bx bx-restaurant"></i>RapidEats</a>
 
@@ -26,10 +27,230 @@
         <div class="nav-icons">
             <a href="#"><i class="bx bx-search"></i></a> 
             <a href="#"><i class="bx bx-cart"></i></a> 
+            <!-- Contenedor del carrito -->
+            <div id="carrito">
+                <!-- Contenido del carrito -->
+                <h2>Carrito de Compras</h2>
+                <ul id="lista-carrito"></ul>
+                <button id="vaciar-carrito">Vaciar Carrito</button>
+            </div>
+            <!-- Fin del Contenedor del carrito -->
             <div class="bx bx-menu" id="menu-icon"></div>
         </div>
     </header>
     <section>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+               const baseDeDatos = [
+        {
+          id: 1,
+          nombre: "Italiano Fantástico",
+          descripcion: "La hamburguesa con un toque italiano de sabor y estilo",
+          precio: 4500,
+          imagen: "img/Italiano fantástico.png"
+        },
+        {
+          id: 2,
+          "nombre": "Pollo Paradise",
+          "descripcion": "La hamburguesa jugosa con pollo tierno y sabroso",
+           precio: 5000,
+           imagen:"img/imgPollo.png"
+        },
+        {
+          id: 3,
+          nombre: "Classic Crave",
+          descripcion: "La hamburguesa clásica que siempre antoja",
+          precio: 4000,
+          imagen:"img/imgRapid.png"
+        },
+    
+        {
+          id: 4,
+          nombre: "Bacon Bliss",
+          descripcion: "La hamburguesa con el toque irresistible del bacon crujiente",
+          precio: 6000,
+          imagen:"img/HamburguesaBacon.png"
+
+        },
+        {
+            id: 5,
+            nombre: "Garden Delight",
+            descripcion: "Una explosión de sabores con vegetales frescos y proteínas vegetales",
+            precio: 5580,
+            imagen:"img/hamburguesaVegetal.png"
+        },
+        {
+            id: 6,
+            nombre: "BBQ Supreme",
+            descripcion: "La hamburguesa con sabor a la parrilla que lo tiene todo",
+            precio: 6000,
+            imagen:"img/hamburguesabbq.png"
+        }
+    ];
+    
+              let carrito = [];
+              const divisa = '$';
+              const DOMitems = document.querySelector('#items');
+              const DOMcarrito = document.querySelector('#carrito');
+              const DOMtotal = document.querySelector('#total');
+              const DOMbotonVaciar = document.querySelector('#boton-vaciar');
+    
+              // Funciones
+    
+              /**
+              * Dibuja todos los productos a partir de la base de datos. No confundir con el carrito
+              */
+              function renderizarProductos() {
+              baseDeDatos.forEach((info) => {
+                  // Estructura
+                  const miNodo = document.createElement('div');
+                  miNodo.classList.add('card', 'col-sm-4');
+                  // Body
+                  const miNodoCardBody = document.createElement('div');
+                  miNodoCardBody.classList.add('card-body');
+                  // Titulo
+                  const miNodoTitle = document.createElement('h5');
+                  miNodoTitle.classList.add('card-title');
+                  miNodoTitle.textContent = info.nombre;
+                  // Imagen
+                  const miNodoImagen = document.createElement('img');
+                  miNodoImagen.classList.add('img-fluid');
+                  miNodoImagen.setAttribute('src', info.imagen);
+                  // Precio
+                  const miNodoPrecio = document.createElement('p');
+                  miNodoPrecio.classList.add('card-text');
+                  miNodoPrecio.textContent = `${info.precio}${divisa}`;
+                  // Boton
+                  const miNodoBoton = document.createElement('button');
+                  miNodoBoton.classList.add('btn', 'btn-primary');
+                  miNodoBoton.textContent = '+';
+                  miNodoBoton.setAttribute('marcador', info.id);
+                  miNodoBoton.addEventListener('click', anyadirProductoAlCarrito);
+                  // Insertamos
+                  miNodoCardBody.appendChild(miNodoImagen);
+                  miNodoCardBody.appendChild(miNodoTitle);
+                  miNodoCardBody.appendChild(miNodoPrecio);
+                  miNodoCardBody.appendChild(miNodoBoton);
+                  miNodo.appendChild(miNodoCardBody);
+                  DOMitems.appendChild(miNodo);
+              });
+          }
+    
+              /**
+              * Evento para añadir un producto al carrito de la compra
+              */
+              function anyadirProductoAlCarrito(evento) {
+                  // Anyadimos el Nodo a nuestro carrito
+                  carrito.push(evento.target.getAttribute('marcador'))
+                  // Actualizamos el carrito
+                  renderizarCarrito();
+    
+              }
+    
+              /**
+              * Dibuja todos los productos guardados en el carrito
+              */
+              function renderizarCarrito() {
+                  // Vaciamos todo el html
+                  DOMcarrito.textContent = '';
+                  // Quitamos los duplicados
+                  const carritoSinDuplicados = [...new Set(carrito)];
+                  // Generamos los Nodos a partir de carrito
+                  carritoSinDuplicados.forEach((item) => {
+                      // Obtenemos el item que necesitamos de la variable base de datos
+                      const miItem = baseDeDatos.filter((itemBaseDatos) => {
+                          // ¿Coincide las id? Solo puede existir un caso
+                          return itemBaseDatos.id === parseInt(item);
+                      });
+                      // Cuenta el número de veces que se repite el producto
+                      const numeroUnidadesItem = carrito.reduce((total, itemId) => {
+                          // ¿Coincide las id? Incremento el contador, en caso contrario no mantengo
+                          return itemId === item ? total += 1 : total;
+                      }, 0);
+                      // Creamos el nodo del item del carrito
+                      const miNodo = document.createElement('li');
+                      miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
+                      miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0].nombre} - ${miItem[0].precio}${divisa}`;
+                      // Boton de borrar
+                      const miBoton = document.createElement('button');
+                      miBoton.classList.add('btn', 'btn-danger', 'mx-5');
+                      miBoton.textContent = 'X';
+                      miBoton.style.marginLeft = '1rem';
+                      miBoton.dataset.item = item;
+                      miBoton.addEventListener('click', borrarItemCarrito);
+                      // Mezclamos nodos
+                      miNodo.appendChild(miBoton);
+                      DOMcarrito.appendChild(miNodo);
+                  });
+                 // Renderizamos el precio total en el HTML
+                 DOMtotal.textContent = calcularTotal();
+              }
+    
+              /**
+              * Evento para borrar un elemento del carrito
+              */
+              function borrarItemCarrito(evento) {
+                  // Obtenemos el producto ID que hay en el boton pulsado
+                  const id = evento.target.dataset.item;
+                  // Borramos todos los productos
+                  carrito = carrito.filter((carritoId) => {
+                      return carritoId !== id;
+                  });
+                  // volvemos a renderizar
+                  renderizarCarrito();
+              }
+    
+              /**
+               * Calcula el precio total teniendo en cuenta los productos repetidos
+               */
+              function calcularTotal() {
+                  // Recorremos el array del carrito
+                  return carrito.reduce((total, item) => {
+                      // De cada elemento obtenemos su precio
+                      const miItem = baseDeDatos.filter((itemBaseDatos) => {
+                          return itemBaseDatos.id === parseInt(item);
+                      });
+                      // Los sumamos al total
+                      return total + miItem[0].precio;
+                  }, 0).toFixed(2);
+              }
+    
+              /**
+              * Varia el carrito y vuelve a dibujarlo
+              */
+              function vaciarCarrito() {
+                  // Limpiamos los productos guardados
+                  carrito = [];
+                  // Renderizamos los cambios
+                  renderizarCarrito();
+              }
+    
+              // Eventos
+              DOMbotonVaciar.addEventListener('click', vaciarCarrito);
+    
+              // Inicio
+              renderizarProductos();
+              renderizarCarrito();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <!-- Elementos generados a partir del JSON -->
+                <main id="items" class="col-sm-8 row"></main>
+                <!-- Carrito -->
+                <aside class="col-sm-4">
+                    <h2>Carrito</h2>
+                    <!-- Elementos del carrito -->
+                    <ul id="carrito" class="list-group"></ul>
+                    <hr>
+                    <!-- Precio total -->
+                    <p class="text-right">Total: <span id="total"></span>&euro;</p>
+                    <button id="boton-vaciar" class="btn btn-danger">Vaciar</button>
+                </aside>
+            </div>
+        </div>
         <div class="middle-text-i">
             <h4>Nuestro Menú</h4>
             <h2>Sabor al instante</h2>
@@ -41,16 +262,21 @@
         </div>
         <div class="shop-content">
             
-            <div class="row">
+            <div class="row" id="1">
                 <img src="img/Italiano fantástico.png">
                 <h3>Italiano Fantástico</h3>
                 <p>La hamburguesa con un toque italiano de sabor y estilo</p>
                 <div class="in-text">
                     <div class="price"> 
-                        <h6>$8.000</h6>
+                        <h6>$4.500</h6>
                     </div>
                     <div class="s-btn">
-                        <a href="#" class="agregar-carrito"> Agregar carrito</a>
+                        <script>renderizarProductos();</script>
+                        <a class="agregar-carrito">
+                            <script></script>
+                            
+                            <button  marcador="1" id="botonagregarcarrito">Agregar carrito
+                            </button></a>
                     </div>
                 </div>
                 <div class="top-icon">
@@ -58,16 +284,16 @@
                 </div>
             </div>
  
-            <div class="row">
+            <div class="row" id="2">
                 <img src="img/imgPollo.png">
                 <h3>Pollo Paradise</h3>
                 <p>La hamburguesa jugosa con pollo tierno y sabroso</p>
                 <div class="in-text">
                     <div class="price"> 
-                        <h6>$8.000</h6>
+                        <h6>$5.000</h6>
                     </div>
                     <div class="s-btn">
-                        <a href="#" class="agregar-carrito"> Agregar carrito</a>
+                        <a href="#" id="botonagregarcarrito" class="agregar-carrito">Agregar carrito</a>
                     </div>
                 </div>
                 <div class="top-icon">
@@ -76,16 +302,16 @@
             </div>            
 
             
-            <div class="row">
+            <div class="row" id="3">
                 <img src="img/imgRapid.png">
                 <h3>Classic Crave</h3>
                 <p>La hamburguesa clásica que siempre antoja</p>
                 <div class="in-text">
                     <div class="price"> 
-                        <h6>$8.000</h6>
+                        <h6>$4.000</h6>
                     </div>
                     <div class="s-btn">
-                        <a href="#" class="agregar-carrito"> Agregar carrito</a>
+                        <a href="#" id="botonagregarcarrito" class="agregar-carrito">Agregar carrito</a>
                     </div>
                 </div>
                 <div class="top-icon">
@@ -93,7 +319,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="4">
                 <img src="img/HamburguesaBacon.png">
                 <h3>Bacon Bliss</h3>
                 <p>La hamburguesa con el toque irresistible del bacon crujiente</p>
@@ -102,7 +328,7 @@
                         <h6>$8.000</h6>
                     </div>
                     <div class="s-btn">
-                        <a href="#" class="agregar-carrito"> Agregar carrito</a>
+                        <a href="#" id="botonagregarcarrito" class="agregar-carrito">Agregar carrito</a>
                     </div>
                 </div>
                 <div class="top-icon">
@@ -110,7 +336,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="5">
                 <img src="img/hamburguesaVegetal.png">
                 <h3>Garden Delight</h3>
                 <p>Una explosión de sabores con vegetales frescos y proteínas vegetales</p>
@@ -119,7 +345,7 @@
                         <h6>$8.000</h6>
                     </div>
                     <div class="s-btn">
-                        <a href="#" class="agregar-carrito"> Agregar carrito</a>
+                        <a href="#" id="botonagregarcarrito" class="agregar-carrito">Agregar carrito</a>
                     </div>
                 </div>
                 <div class="top-icon">
@@ -127,7 +353,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="6">
                 <img src="img/hamburguesabbq.png">
                 <h3>BBQ Supreme</h3>
                 <p>La hamburguesa con sabor a la parrilla que lo tiene todo</p>
@@ -136,7 +362,7 @@
                         <h6>$8.000</h6>
                     </div>
                     <div class="s-btn">
-                        <a href="#" class="agregar-carrito"> Agregar carrito</a>
+                        <a href="#" id="botonagregarcarrito" class="agregar-carrito">Agregar carrito</a>
                     </div>
                 </div>
                 <div class="top-icon">
@@ -504,13 +730,11 @@
                     <a href="#"><i class="bx bx-mobile-alt"></i>+56 9 256184588</a>
                 </div>
             </div>
-
-
-
         </div>
-
     </section>
+
     <script src="js/script.js"></script>
+    <script src="js/menu.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </body>
 </html>
