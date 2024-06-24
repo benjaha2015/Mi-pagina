@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel= "icon" href="img/restaurant-regular-24.png"> 
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Carrito</h1>
+        <div id="carrito"></div>
+        <div class="button-container">
+            <button onclick="regresarInicio()">Atrás</button>
+            <button onclick="seguirCompra()">Seguir con la Compra</button>
+            <button onclick="comprar()">Comprar</button>
+        </div>
+    </div>
+
+    <script>
+        function mostrarCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const carritoDiv = document.getElementById('carrito');
+
+            carritoDiv.innerHTML = '';
+            carrito.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('carrito-item');
+
+                itemDiv.innerHTML = `
+                    <img src="${item.imagen}" alt="${item.nombre}">
+                    <p>${item.nombre} - $${(item.precioOriginal * item.cantidad).toLocaleString('es-CL')} x ${item.cantidad}</p>
+                    <div class="actions">
+                        <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+                        <button onclick="incrementarCantidad(${index})">+</button>
+                        <button onclick="decrementarCantidad(${index})">-</button>
+                    </div>
+                `;
+
+                carritoDiv.appendChild(itemDiv);
+            });
+        }
+
+        function eliminarDelCarrito(index) {
+            let carrito = JSON.parse(localStorage.getItem('carrito'));
+            carrito.splice(index, 1);
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        function incrementarCantidad(index) {
+            let carrito = JSON.parse(localStorage.getItem('carrito'));
+            carrito[index].cantidad++;
+            carrito[index].precio = carrito[index].precioOriginal * carrito[index].cantidad; // Multiplicar precio por cantidad
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        function decrementarCantidad(index) {
+            let carrito = JSON.parse(localStorage.getItem('carrito'));
+            if (carrito[index].cantidad > 1) {
+                carrito[index].cantidad--;
+                carrito[index].precio = carrito[index].precioOriginal * carrito[index].cantidad; // Ajustar precio al decrementar
+            } else {
+                carrito.splice(index, 1);
+            }
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        function seguirCompra() {
+            alert('Redirigiendo a la página de pago...');
+            window.location.href = 'Lista de juegos.html';
+        }
+        
+        function regresarInicio() {
+            window.location.href = 'Lista de juegos.html';
+        }
+
+        function comprar() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            if (carrito.length === 0) {
+                alert('El carrito está vacío. Agrega juegos antes de proceder con la compra.');
+            } else {
+                alert('Procesando la compra...');
+                // Aquí puedes agregar la lógica para procesar la compra
+            }
+        }
+        function enviarDatosCarrito(carrito) {
+            fetch('procesar_compra.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ carrito: carrito })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Compra realizada exitosamente.');
+                    localStorage.removeItem('carrito');
+                    mostrarCarrito();
+                } else {
+                    alert('Hubo un problema al procesar la compra.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar los datos:', error);
+                alert('Hubo un problema al procesar la compra.');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', mostrarCarrito);
+    </script>
+</body>
+</html>
