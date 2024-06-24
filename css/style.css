@@ -11,6 +11,10 @@
     scroll-padding-top: 3rem;
 }
 
+html {
+    font-size: 65.5%;
+}
+
 :root {
     --main-color: #ff9f0d;
     --text-color: #fff;
@@ -293,7 +297,6 @@ header.sticky {
 .row {
     position: relative;
     padding: 60px;
-    background: var(--other-color);
     border-radius: 3rem;
 }
 
@@ -330,7 +333,7 @@ header.sticky {
     font-weight: 600;
 }
 
-.in-text .s-btn a{
+.in-text .s-btn button{
     display: inline-block;
     padding: 9px 23px;
     background: var(--bg-color);
@@ -342,7 +345,8 @@ header.sticky {
     transition: all 0.5s ease;
 }
 
-.in-text .s-btn a:hover {
+
+.in-text .s-btn button:hover {
     background: var(--main-color);
     color: var(--bg-color);
     box-shadow: #ff9f0d 0px 1px 25px;
@@ -639,42 +643,109 @@ form p a{
 
     padding: 9px;
 }
-/*carrito*/
-.carrito {
+/*tabla carrito*/
+
+.containers {
+    background-color: transparent;
+}
+
+.containers nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    background-color: transparent;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.nav-card {
+    display: none;
+}
+
+.containers nav button {
+    display: none;
+}
+
+.nav-card li {
+    list-style: none;
+    padding: 1rem;
+    font-weight: bold;
+}
+
+.containers nav i:hover > .buy-card {
+    width: 500px;
+    height: 500px;
     position: absolute;
-    top: 50px; /* Ajusta esta posición según tu diseño */
     right: 0;
+    background-color: var(--main-color);
+}
+
+.containers nav i:hover .nav-card {
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px 0 10px;
+    border-bottom: solid thin #e1e1e1;
+}
+
+.containers nav i:hover .buy-card > button {
+    display: block;
+    width: 90%;
+    padding: 1rem;
+    margin: 10px auto;
+    background-color: transparent;
+    border: solid thin #e1e1e1;
+    color: #494848;
+    cursor: pointer;
+}
+
+.containers nav i:hover .buy-card > button:hover {
+    border: solid thin #494848;
+    transition: all .4s;
+}
+
+.containers nav i {
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.cart-icon {
+    width: 20px;
+    height: auto;
+    padding: 1rem;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+/* acomodar elementos del carrito */
+.lista_de_comidas div {
+    display: none;
+    text-align: center;
+    padding: 10px 0 0 0;
+    border: solid thin gray;
+}
+
+.containers nav i:hover .buy-card > .lista_de_comidas div{
+    display: flex;
+}
+
+.lista_de_comidas img {
+    width: 100px;
+}
+
+.lista_de_comidas p {
     width: 300px;
-    background-color: white;
-    border: 1px solid #ccc;
-    display: none; /* Oculto por defecto */
-    z-index: 1000;
+    font-size: 1.3rem;
 }
 
-.card {
-    position: relative;
-    display: -ms-flexbox;
-    display: inline;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-
-    background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: .25rem;
-}
-.card-body {
-    display: flex;
+.lista_de_comidas p:nth-child(4) {
+    padding-left: 40px;
 }
 
-.col-sm-4 {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-}
-.img-fluid {
-    max-width: 30%;
-    height: 30%;
-    display: flex;
+.lista_de_comidas p:last-child span {
+    background-color: red;
+    border-radius: 50%;
+    padding: 5px 10px;
+    color: #fff;
 }

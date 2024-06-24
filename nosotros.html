@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel= "icon" href="img/restaurant-regular-24.png">
+    <script src="https://kit.fontawesome.com/57faba85b1.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!--- Header -->
@@ -24,9 +25,30 @@
         </ul>
 
         <div class="nav-icons">
-            <a href="#"><i class="bx bx-search"></i></a> 
-            <a href="#" id="mostrar-carrito"><i class="bx bx-cart"></i></a> <!-- Icono del carrito -->
-            <div class="bx bx-menu" id="menu-icon"></div>
+            <a href="#"><i class="bx bx-search"></i></a>
+            <div class="containers">
+                <nav>
+                    <div class="carrito" id="carrito">
+                        <i class="bx bx-cart" id="cart-icon">
+                            <div class="buy-card">
+                                <ul class="nav-card">
+                                    <li>Imagen</li>
+                                    <li>Nombre</li>
+                                    <li>Precio</li>
+                                    <li>Cantidad</li>
+                                    <li class="total">Total: </li>
+                                    <li></li>
+                                </ul>
+                                <div class="lista_de_comidas">
+    
+                                </div>
+                                <button id="vaciar_carrito">VACIAR CARRITO</button>
+                            </div>
+                        </i>
+                    </div>
+                </nav>
+            </div>
+            <div><i class='bx bx-menu' id="menu-icon"></i></div>
         </div>
 
     </header>
@@ -116,9 +138,10 @@
         </div>
 
     </section>
-
+    <script src="js/carrito.js"></script>
     <script src="js/script.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     
+
 </body>
 </html>
